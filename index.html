@@ -90,7 +90,7 @@
 
         <div class="list-container">
         <!-- [START greetings] -->
-            <div class = "list-item">
+            <!--<div class = "list-item">
                 <div class = "pokemon-name">
                     <p> <b>Rondoudou      :</b> </p>
                 </div>
@@ -105,20 +105,30 @@
                 <div class = "pokemon-element">
                     <p> <b> Type : </b> Sommeil </p>
                 </div>
+            </div>-->
+            {% for pokemon in pokemons %}
+            <div class = "list-item">
+                <div class = "pokemon-name">
+                    <p> <b>{{ pokemon.name }}      :</b> </p>
+                </div>
+                <div class = "pokemon-element">
+                    <p> <b> Type : </b> {{ pokemon.type }} </p>
+                </div>
             </div>
+            {% endfor %}
         </div>
 
         <h3>You've seen a new pokemon ! </h3>
         <div>
-            <form action="/sign?guestbook_name={{ guestbook_name }}" method="post">
-                <label for="fname">What's his name ? </label>
-                <input type="text" id="fname" name="name" placeholder="Name...">
+            <form action="/capture" method="post">
+                <label>What's his name ? </label>
+                <input type="text" name="name" placeholder="Name...">
 
-                <label for="country">What's his type ? </label>
-                    <select id="country" name="country">
-                        <option value="australia">Fire</option>
-                        <option value="canada">Water</option>
-                        <option value="usa">USA</option>
+                <label>What's his type ? </label>
+                    <select name="type">
+                        <option value="Fire">Fire</option>
+                        <option value="Water">Water</option>
+                        <option value="Earth">Earth</option>
                     </select>
                 <input type="submit" value="Add it to your pokedex !">
             </form>
