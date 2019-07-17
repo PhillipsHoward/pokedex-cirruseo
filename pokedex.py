@@ -69,15 +69,18 @@ class MainPage(webapp2.RequestHandler):
 
 class CapturePokemon(webapp2.RequestHandler):
 
-    def post(self):
-
+    def make_pokemon(self, name, type_name):
         trainer_id = users.get_current_user().user_id()
         pokemon = Pokemon(parent=trainer_key(trainer_id))
-
-        pokemon.name = self.request.get('name')
-        type_name = self.request.get('type')
+        pokemon.name = name
         pokemon.type = Type.query(Type.name == type_name).get()
+        return pokemon
 
+    def post(self):
+
+        pokemon_name = self.request.get('name')
+        type_name = self.request.get('type_name')
+        pokemon = self.make_pokemon(pokemon_name, type_name)
         pokemon.put()
         self.redirect('/')
 
