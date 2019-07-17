@@ -20,9 +20,12 @@ def trainer_key(trainer_id):
 
 # MODELS
 
+class Type(ndb.Model):
+    name = ndb.StringProperty()
+
 class Pokemon(ndb.Model):
     name = ndb.StringProperty()
-    type = ndb.StringProperty()
+    type = ndb.StructuredProperty(Type)
 
 # HANDLERS
 
@@ -33,6 +36,18 @@ class MainPage(webapp2.RequestHandler):
         user = users.get_current_user()
         url_logout = users.create_logout_url('/')
 
+        type_query = Type.query()
+        types = type_query.fetch(10)
+
+        if not types :
+            fire = Type(name="Fire")
+            fire.put()
+            water = Type(name="Water")
+            water.put()
+            earth = Type(name="Earth")
+            earth.put()
+
+
         trainer_id = user.user_id()
         pokemons_query = Pokemon.query(
             ancestor=trainer_key(trainer_id))
@@ -40,6 +55,7 @@ class MainPage(webapp2.RequestHandler):
 
         template_values = {
             'user' : user,
+            'types' : types,
             'pokemons': pokemons,
             'url_logout' : url_logout,
         }
@@ -55,12 +71,12 @@ class CapturePokemon(webapp2.RequestHandler):
         trainer_id = user.user_id()
         pokemon = Pokemon(parent=trainer_key(trainer_id))
         pokemon.name = self.request.get('name')
-        pokemon.type = self.request.get('type')
+        type_name = self.request.get('type')
+        type_query = Type.query(Type.name == type_name)
+        type = type_query.get()
+        pokemon.type = type
         pokemon.put()
-
         self.redirect('/')
-
-
 
 
 app = webapp2.WSGIApplication([

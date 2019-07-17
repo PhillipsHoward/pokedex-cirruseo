@@ -92,7 +92,7 @@
                     <p> <b>{{ pokemon.name }}      :</b> </p>
                 </div>
                 <div class = "pokemon-element">
-                    <p> <b> Type : </b> {{ pokemon.type }} </p>
+                    <p> <b> Type : </b> {{ pokemon.type.name }} </p>
                 </div>
             </div>
             {% endfor %}
@@ -103,12 +103,11 @@
             <form action="/capture" method="post">
                 <label>What's his name ? </label>
                 <input type="text" name="name" placeholder="Name...">
-
                 <label>What's his type ? </label>
                     <select name="type">
-                        <option value="Fire">Fire</option>
-                        <option value="Water">Water</option>
-                        <option value="Earth">Earth</option>
+                        {% for type in types %}
+                            <option value= {{ type.name }} > {{ type.name }} </option>
+                        {% endfor %}
                     </select>
                 <input type="submit" value="Add it to your pokedex !">
             </form>
