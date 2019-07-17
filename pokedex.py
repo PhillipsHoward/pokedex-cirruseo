@@ -31,11 +31,7 @@ class Pokemon(ndb.Model):
 
 class MainPage(webapp2.RequestHandler):
 
-    def get(self):
-
-        user = users.get_current_user()
-        url_logout = users.create_logout_url('/')
-
+    def _init_types(self):
         type_query = Type.query()
         types = type_query.fetch(10)
 
@@ -46,7 +42,15 @@ class MainPage(webapp2.RequestHandler):
             water.put()
             earth = Type(name="Earth")
             earth.put()
+            types = type_query.fetch(10)
+        return types
 
+    def get(self):
+
+        user = users.get_current_user()
+        url_logout = users.create_logout_url('/')
+
+        types = self._init_types()
 
         trainer_id = user.user_id()
         pokemons_query = Pokemon.query(
@@ -67,16 +71,16 @@ class CapturePokemon(webapp2.RequestHandler):
 
     def post(self):
 
-        user = users.get_current_user()
-        trainer_id = user.user_id()
+        trainer_id = users.get_current_user().user_id()
         pokemon = Pokemon(parent=trainer_key(trainer_id))
+
         pokemon.name = self.request.get('name')
         type_name = self.request.get('type')
-        type_query = Type.query(Type.name == type_name)
-        type = type_query.get()
-        pokemon.type = type
+        pokemon.type = Type.query(Type.name == type_name).get()
+
         pokemon.put()
         self.redirect('/')
+
 
 
 app = webapp2.WSGIApplication([
