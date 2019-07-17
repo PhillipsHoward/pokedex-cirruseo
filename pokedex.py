@@ -20,12 +20,8 @@ def trainer_key(trainer_id):
 
 # MODELS
 
-class Type(ndb.Model):
-    name = ndb.StringProperty()
-
 class Pokemon(ndb.Model):
     name = ndb.StringProperty()
-    #type_key = ndb.KeyProperty(kind='Type', repeated=True)
     type = ndb.StringProperty()
 
 # HANDLERS
@@ -58,22 +54,13 @@ class CapturePokemon(webapp2.RequestHandler):
         user = users.get_current_user()
         trainer_id = user.user_id()
         pokemon = Pokemon(parent=trainer_key(trainer_id))
-
         pokemon.name = self.request.get('name')
-        type_name = self.request.get('type')
-        print type_name
-        pokemon.type = type_name
+        pokemon.type = self.request.get('type')
         pokemon.put()
 
         self.redirect('/')
 
-    def get_type(self, type_name):
-        type = Type.query(Type.name == type_name )
-        if type.key is None :
-            type = Type(name=type_name)
-            return type.put()
-        else :
-            return type
+
 
 
 app = webapp2.WSGIApplication([
