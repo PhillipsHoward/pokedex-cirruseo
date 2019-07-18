@@ -1,0 +1,48 @@
+{% autoescape true %}
+<html>
+    <head>
+
+        <link type="text/css" rel="stylesheet" href="/style/bootstrap.css">
+        <link type="text/css" rel="stylesheet" href="/style/bootstrap-responsive.css">
+        <link type="text/css" rel="stylesheet" href="/style/styles.css">
+    </head>
+
+    <body>
+        <nav class="navbar navbar-expand-md">
+            <h1> Your Pokedex </h1>
+            <a class="button-sign-out" href="{{ url_logout|safe }}" class="btn">Sign out</a>
+        </nav>
+        <h3> Welcome {{ user.email() }} ! </h3>
+
+        <div class="list-container container">
+            {% for pokemon in pokemons %}
+            <div class = "row list-item">
+                <div class = "pokemon-name">
+                    <p> <b>{{ pokemon.name }}      :</b> </p>
+                </div>
+                <div class = "pokemon-element">
+                    <p> <b> Type : </b> {{ pokemon.type.name }} </p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <h3>You've seen a new pokemon ! </h3>
+        <div>
+            <form action="/capture" method="post">
+                <label>What's his name ? </label>
+                <input type="text" name="name" placeholder="Name...">
+                <label>What's his type ? </label>
+                    <select name="type_name">
+                        {% for type in types %}
+                            <option value= {{ type.name }} > {{ type.name }} </option>
+                        {% endfor %}
+                    </select>
+                <input type="submit" value="Add it to your pokedex !">
+            </form>
+        </div>
+    </body>
+
+</html>
+
+{% endautoescape %}

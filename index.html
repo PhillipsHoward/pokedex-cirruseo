@@ -1,45 +1,61 @@
 {% autoescape true %}
 <html>
     <head>
-        <link type="text/css" rel="stylesheet" href="/style/styles.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     </head>
 
     <body>
-        <div class="navbar">
-            <h1> Your Pokedex </h1>
-            <a class="button-sign-out" href="{{ url_logout|safe }}" class="btn">Sign out</a>
-        </div>
-        <h3> Welcome {{ user.email() }} ! </h3>
+	<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+  <h5 class="my-0 mr-md-auto font-weight-normal">Your Pokedex</h5>
+   <a class="btn btn-outline-primary"  href="{{ url_logout|safe }}"> Sign out</a>
+  </div>
 
-        <div class="list-container">
+  
+  <div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Pokedex</h1>
+    <p class="lead">Welcome {{ user.email() }} !</p>
+  </div>
+
+        <ul class="list-group">
             {% for pokemon in pokemons %}
-            <div class = "list-item">
-                <div class = "pokemon-name">
-                    <p> <b>{{ pokemon.name }}      :</b> </p>
-                </div>
-                <div class = "pokemon-element">
-                    <p> <b> Type : </b> {{ pokemon.type.name }} </p>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
+            <li class = "list-group-item d-flex justify-content-between align-items-center">
 
-        <h3>You've seen a new pokemon ! </h3>
-        <div>
+                   {{ pokemon.name }}  
+ 
+				<span class="badge badge-primary badge-pill">{{ pokemon.type.name }}</span>
+
+            </li>
+            {% endfor %}
+        </ul>
+
+		 <div class="px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center"
+        <h1 class="display-4">You've seen a pokemon !</h1>
+        </div>
+		
             <form action="/capture" method="post">
-                <label>What's his name ? </label>
-                <input type="text" name="name" placeholder="Name...">
-                <label>What's his type ? </label>
-                    <select name="type_name">
+			<div class="form-group">
+				<label for="name">What's his name ?</label>
+				<input type="text" class="form-control" id="exampleInputEmail1" name="name" placeholder="Name...">
+		    </div>
+			<div class="form-group">
+				<label for="type">What's his type ?</label>
+				<select name="type_name">
                         {% for type in types %}
                             <option value= {{ type.name }} > {{ type.name }} </option>
                         {% endfor %}
                     </select>
-                <input type="submit" value="Add it to your pokedex !">
+					<input class="btn btn-primary" type="submit" value="Add it to your pokedex !">
+		    </div>
             </form>
         </div>
+		
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
     </body>
 
 </html>
+
 
 {% endautoescape %}

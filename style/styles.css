@@ -1,14 +1,28 @@
 body {
-    padding-top: 40px;
-    padding-bottom: 40px;
     background-color: #f5f5f5;
 }
 
+.navbar {
+    background-color : green;
+}
+
+
+/*body {
+    font-size: 2em;
+    padding-bottom: 40px;
+    background-color: #f5f5f5;
+}
 
 .navbar {
     padding-left : 20px;
     display : flex;
     justify-content: space-between;
+    background-color : #ffe6d0;
+}
+
+h1 {
+    margin-left: 30px;
+    font-family:Arial, Helvetica, sans-serif;
 }
 
 .button-sign-out {
@@ -20,7 +34,7 @@ body {
     color: white;
     padding: 10px 32px;
     text-decoration: none;
-    margin: 10px 2px;
+    margin: 40px 20px;
     cursor: pointer;
 }
 
@@ -31,20 +45,29 @@ body {
 .list-container {
     display: flex;
     flex-direction : column;
+    //border-style : solid;
+    //border-width : 1px;
+    //padding : 5px;
+    //max-height : 120px;
+    //scroll-behavior: auto;
 }
 
 .list-item {
     display: flex;
     margin-top : 3px;
-    justify-content: space-around;
+    justify-content: space-between;
     border : solid;
     border-width : 1px;
+    border-radius: 10px;
 }
 
 .pokemon-name {
-    font-size : 20px;
-    margin-top : auto;
-    vertical-align:middle;
+    margin-left : 50px;
+}
+
+.pokemon-element {
+    width : 400px;
+
 }
 
 input[type=text], select {
@@ -70,4 +93,4 @@ input[type=submit] {
 
 input[type=submit]:hover {
     background-color: #ef2a26;
-}
+}*/
