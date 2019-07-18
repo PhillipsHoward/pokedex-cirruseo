@@ -7,8 +7,13 @@ body {
     font-size : 1em;
 }
 
-img {
-  display: block;
-  max-width: 100%;
-  height: auto;
+.img-pokemon {
+  height: 100px;
+}
+
+.list-group{
+    max-height: 500px;
+    margin-bottom: 10px;
+    overflow:scroll;
+    -webkit-overflow-scrolling: touch;
 }

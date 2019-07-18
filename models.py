@@ -6,6 +6,7 @@ class Type(ndb.Model):
 
 class Pokemon(ndb.Model):
     name = ndb.StringProperty()
+    img_url = ndb.StringProperty()
     type = ndb.StructuredProperty(Type)
 
 def trainer_key(trainer_id):
