@@ -5,7 +5,7 @@ import os
 import urllib
 
 from google.appengine.api import users
-from google.appengine.ext import ndb
+from models import Pokemon, Type, trainer_key
 
 #CONSTANTS
 
@@ -14,18 +14,6 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     extensions=['jinja2.ext.autoescape'],
     autoescape=True
 )
-
-def trainer_key(trainer_id):
-    return ndb.Key('Trainer', trainer_id)
-
-# MODELS
-
-class Type(ndb.Model):
-    name = ndb.StringProperty()
-
-class Pokemon(ndb.Model):
-    name = ndb.StringProperty()
-    type = ndb.StructuredProperty(Type)
 
 # HANDLERS
 
@@ -83,7 +71,6 @@ class CapturePokemon(webapp2.RequestHandler):
         pokemon = self.make_pokemon(pokemon_name, type_name)
         pokemon.put()
         self.redirect('/')
-
 
 
 app = webapp2.WSGIApplication([

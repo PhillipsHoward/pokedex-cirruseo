@@ -3,6 +3,10 @@ api_version: 1
 threadsafe: true
 
 handlers:
+
+- url: /style
+  static_dir: style
+
 - url: /.*
   script: pokedex.app
   login: required
