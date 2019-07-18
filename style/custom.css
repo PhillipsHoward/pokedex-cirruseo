@@ -1,0 +1,14 @@
+
+body {
+    background-color: #f5f5f5;
+}
+
+.type {
+    font-size : 1em;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
