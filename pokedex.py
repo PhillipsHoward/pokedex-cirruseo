@@ -3,43 +3,28 @@ import jinja2
 import webapp2
 import os
 import urllib
+
 from google.appengine.api import users
 from google.appengine.api import urlfetch
-from models import Pokemon, Type, trainer_key, init_types
+
+from models import Pokemon, Type, init_types
+from queries import fetch_types, fetch_pokemons_list, trainer_key
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=['jinja2.ext.autoescape'],
     autoescape=True
 )
-MAX_POKEMON_LIST_SIZE = 10
 
 class MainPage(webapp2.RequestHandler):
-
-    #Fetch types list. If there is no types in database, populate it.
-    def fetch_types(self):
-        type_query = Type.query()
-        types = type_query.fetch()
-
-        if not types :
-            return init_types()
-        else :
-            return types
-
-    #Fetch pokemons in user pokedex
-    def fetch_pokemons_list(self, trainer_id):
-            pokemons_query = Pokemon.query(
-                ancestor=trainer_key(trainer_id))
-            pokemons = pokemons_query.fetch(MAX_POKEMON_LIST_SIZE)
-            return pokemons
 
     def get(self):
 
         #Authenticate user and fetch informations in database
         user = users.get_current_user()
         url_logout = users.create_logout_url('/')
-        types = self.fetch_types()
-        pokemons = self.fetch_pokemons_list(user.user_id())
+        types = fetch_types()
+        pokemons = fetch_pokemons_list(user.user_id())
 
         #Generate the page
         template_values = {
@@ -86,7 +71,10 @@ class CapturePokemon(webapp2.RequestHandler):
 
         type_name = self.request.get('type_name')
         pokemon = self.make_pokemon(pokemon_name, type_name)
-        pokemon.put()
+
+        trainer_id = users.get_current_user().user_id()
+        if pokemon_name not in [poke.name for poke in fetch_pokemons_list(trainer_id)]: # Check if new pokemon does not already exist in user pokedex (checking it by name)
+            pokemon.put()
         self.redirect('/')
 
 #Entry point ot the app. The WGSI Application receives requests and dispatches the appropriate handlers.
