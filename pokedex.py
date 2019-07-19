@@ -5,7 +5,7 @@ import os
 import urllib
 from google.appengine.api import users
 from google.appengine.api import urlfetch
-from models import Pokemon, Type, trainer_key
+from models import Pokemon, Type, trainer_key, init_types
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -13,19 +13,6 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     autoescape=True
 )
 MAX_POKEMON_LIST_SIZE = 10
-
-def init_types():
-    types = []
-    fire = Type(name="Fire")
-    fire.put()
-    types.append(fire)
-    water = Type(name="Water")
-    water.put()
-    types.append(water)
-    ground = Type(name="Ground")
-    ground.put()
-    types.append(ground)
-    return types
 
 class MainPage(webapp2.RequestHandler):
 
@@ -91,7 +78,7 @@ class CapturePokemon(webapp2.RequestHandler):
     #Push a new pokemon into the database
     def post(self):
 
-        #Pokemon name should not be empty. If it's the case, replace it by smiley.
+        #Pokemon name should not be empty. If it's the case, replace it by this nice smiley.
         if self.request.get('name').isspace() :
             pokemon_name = "0_0"
         else :
