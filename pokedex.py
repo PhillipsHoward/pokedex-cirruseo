@@ -15,6 +15,7 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     extensions=['jinja2.ext.autoescape'],
     autoescape=True
 )
+MAX_LENGHT_NAME = 75
 
 class MainPage(webapp2.RequestHandler):
 
@@ -66,6 +67,9 @@ class CapturePokemon(webapp2.RequestHandler):
         #Pokemon name should not be empty. If it's the case, replace it by this nice smiley.
         if self.request.get('name').isspace() or self.request.get('name') == "" :
             pokemon_name = "0_0"
+        #Pokemon name should not be longer than a certain number
+        elif len(self.request.get('name')) > MAX_LENGHT_NAME:
+            pokemon_name = self.request.get('name')[:MAX_LENGHT_NAME]
         else :
             pokemon_name = self.request.get('name')
 
