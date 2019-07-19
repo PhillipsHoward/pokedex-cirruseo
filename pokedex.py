@@ -64,7 +64,7 @@ class CapturePokemon(webapp2.RequestHandler):
     def post(self):
 
         #Pokemon name should not be empty. If it's the case, replace it by this nice smiley.
-        if self.request.get('name').isspace() :
+        if self.request.get('name').isspace() or self.request.get('name') == "" :
             pokemon_name = "0_0"
         else :
             pokemon_name = self.request.get('name')
