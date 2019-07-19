@@ -75,9 +75,9 @@ class CapturePokemon(webapp2.RequestHandler):
                 return result.content
             else:
                 self.response.status_code = result.status_code
-                return "https://assets.pokemon.com/assets/cms2/img/pokedex/full/132.png"
+                return "/assets/mysterepokemon.png"
         except urlfetch.Error:
-            return "https://assets.pokemon.com/assets/cms2/img/pokedex/full/132.png"
+            return "/assets/mysterepokemon.png"
 
     #Create a pokemon object ready to be pushed into the database
     def make_pokemon(self, name, type_name):
