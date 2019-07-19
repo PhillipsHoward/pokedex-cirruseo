@@ -12,7 +12,7 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     extensions=['jinja2.ext.autoescape'],
     autoescape=True
 )
-POKEMON_LIST_SIZE = 10
+MAX_POKEMON_LIST_SIZE = 10
 
 def init_types():
     types = []
@@ -32,7 +32,7 @@ class MainPage(webapp2.RequestHandler):
     #Fetch types list. If there is no types in database, populate it.
     def fetch_types(self):
         type_query = Type.query()
-        types = type_query.fetch(10)
+        types = type_query.fetch()
 
         if not types :
             return init_types()
@@ -43,7 +43,7 @@ class MainPage(webapp2.RequestHandler):
     def fetch_pokemons_list(self, trainer_id):
             pokemons_query = Pokemon.query(
                 ancestor=trainer_key(trainer_id))
-            pokemons = pokemons_query.fetch(POKEMON_LIST_SIZE)
+            pokemons = pokemons_query.fetch(MAX_POKEMON_LIST_SIZE)
             return pokemons
 
     def get(self):
@@ -106,4 +106,4 @@ class CapturePokemon(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([
     ('/', MainPage),
     ('/capture', CapturePokemon),
-], debug=True)
+], debug=False)
